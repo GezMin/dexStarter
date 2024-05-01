@@ -49,6 +49,7 @@ function Swap(props) {
         }
     }
 
+    // переключение валют
     function switchTokens() {
         setPrices(null)
         setTokenOneAmount(null)
@@ -60,11 +61,13 @@ function Swap(props) {
         fetchPrices(two.address, one.address)
     }
 
+    // открытие модального окна
     function openModal(asset) {
         setChangeToken(asset)
         setIsOpen(true)
     }
 
+    // изменение выбранного токена
     function modifyToken(i) {
         setPrices(null)
         setTokenOneAmount(null)
@@ -79,6 +82,7 @@ function Swap(props) {
         setIsOpen(false)
     }
 
+    // получение цены
     async function fetchPrices(one, two) {
         const res = await axios.get(`http://localhost:3001/tokenPrice`, {
             params: { addressOne: one, addressTwo: two },
@@ -87,6 +91,7 @@ function Swap(props) {
         setPrices(res.data)
     }
 
+    // отправка транзакции
     async function fetchDexSwap() {
         const allowance = await axios.get(
             `https://api.1inch.io/v5.0/1/approve/allowance?tokenAddress=${tokenOne.address}&walletAddress=${address}`,
@@ -117,16 +122,19 @@ function Swap(props) {
         setTxDetails(tx.data.tx)
     }
 
+    // получаем цены по умолчанию для валют
     useEffect(() => {
         fetchPrices(tokenList[0].address, tokenList[1].address)
     }, [])
 
+    // отправка транзакции
     useEffect(() => {
         if (txDetails.to && isConnected) {
             sendTransaction()
         }
     }, [txDetails])
 
+    // отображение сообщения
     useEffect(() => {
         messageApi.destroy()
 
@@ -139,6 +147,7 @@ function Swap(props) {
         }
     }, [isLoading])
 
+    // отображение сообщения
     useEffect(() => {
         messageApi.destroy()
         if (isSuccess) {
@@ -156,6 +165,7 @@ function Swap(props) {
         }
     }, [isSuccess])
 
+    // отображение модального окна
     const settings = (
         <>
             <div>Slippage Tolerance</div>

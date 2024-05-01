@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { configureChains, mainnet, WagmiConfig, createClient } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
 
+// подключаю провайдер из библиотеки wagmi
 const { provider, webSocketProvider } = configureChains([mainnet], [publicProvider()])
 
 const client = createClient({
